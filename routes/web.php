@@ -1,0 +1,14 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PublicController;
+
+Route::get('/', [PublicController::class, 'home'])->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::resource('posts', PostController::class);
+});
+Route::get('/', function () {
+    return view('home');
+})->middleware(['auth'])->name('home');
