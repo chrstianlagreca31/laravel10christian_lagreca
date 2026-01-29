@@ -8,9 +8,27 @@
                     @if($post->image)
                         <img src="{{ asset('storage/'.$post->image) }}" class="card-img-top">
                     @endif
+
                     <div class="card-body">
                         <h5>{{ $post->title }}</h5>
                         <p>{{ $post->content }}</p>
+
+                        <a href="{{ route('posts.show', $post) }}" class="btn btn-primary btn-sm">
+                            Leggi
+                        </a>
+
+                        <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning btn-sm">
+                            Modifica
+                        </a>
+
+                        <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm"
+                                onclick="return confirm('Sei sicuro?')">
+                                Elimina
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

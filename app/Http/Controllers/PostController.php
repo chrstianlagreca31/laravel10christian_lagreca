@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
-
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -33,6 +33,50 @@ class PostController extends Controller
             'content' => $request->content,
             'image' => $imagePath,
         ]);
+
+        return redirect()->route('posts.index');
+    }
+
+    // 🔹 READ (singolo post)
+    public function show(Post $post)
+    {
+        return view('posts.show', compact('post'));
+    }
+
+    // 🔹 FORM EDIT
+    public function edit(Post $post)
+    {
+        return view('posts.edit', compact('post'));
+    }
+
+    // 🔹 UPDATE
+    public function update(PostRequest $request, Post $post)
+    {
+        if ($request->hasFile('image')) {
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+
+            $post->image = $request->file('image')->store('posts', 'public');
+        }
+
+        $post->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $post->image,
+        ]);
+
+        return redirect()->route('posts.index');
+    }
+
+    // 🔹 DELETE
+    public function destroy(Post $post)
+    {
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+
+        $post->delete();
 
         return redirect()->route('posts.index');
     }
