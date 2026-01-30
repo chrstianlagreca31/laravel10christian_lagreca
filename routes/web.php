@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PublicController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', [PublicController::class, 'home'])->name('home');
@@ -21,3 +22,5 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
 });
+Route::get('/autori/{user}/posts', [UserController::class, 'posts'])
+    ->name('users.posts');

@@ -11,6 +11,15 @@
 
                     <div class="card-body">
                         <h5>{{ $post->title }}</h5>
+
+                        <p class="text-muted">
+    Autore:
+    <a href="{{ route('users.posts', $post->user) }}">
+        {{ $post->user->name }}
+    </a>
+</p>
+
+
                         <p>{{ $post->content }}</p>
 
                         <a href="{{ route('posts.show', $post) }}" class="btn btn-primary btn-sm">

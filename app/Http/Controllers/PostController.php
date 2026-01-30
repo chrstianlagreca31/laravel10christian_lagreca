@@ -29,27 +29,29 @@ class PostController extends Controller
         }
 
         Post::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'image' => $imagePath,
-        ]);
+    'title' => $request->title,
+    'content' => $request->content,
+    'image' => $imagePath,
+    'user_id' => auth()->id(),
+]);
+
 
         return redirect()->route('posts.index');
     }
 
-    // 🔹 READ (singolo post)
+
     public function show(Post $post)
     {
         return view('posts.show', compact('post'));
     }
 
-    // 🔹 FORM EDIT
+
     public function edit(Post $post)
     {
         return view('posts.edit', compact('post'));
     }
 
-    // 🔹 UPDATE
+   
     public function update(PostRequest $request, Post $post)
     {
         if ($request->hasFile('image')) {
@@ -69,7 +71,7 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    // 🔹 DELETE
+    
     public function destroy(Post $post)
     {
         if ($post->image) {
